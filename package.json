@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/cristian-custodio/node-js-sample#readme",
   "dependencies": {
+    "mongoose": "^5.12.2", 
     "underscore": "^1.12.1"
   }
 }
