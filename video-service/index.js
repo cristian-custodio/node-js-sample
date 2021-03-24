@@ -1,3 +1,4 @@
+const config = require("config");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const Joi = require("joi");
@@ -5,6 +6,18 @@ const logger = require("./logger");
 const express = require("express");
 const { urlencoded } = require("express");
 const app = express();
+
+//Set environment on node using the following
+//export NODE_ENV=production (On Terminal)
+//Code to run only on development
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  console.log("Morgan enabled...");
+}
+
+console.log("Application Name: " + config.get("name"));
+console.log("Mail Server: " + config.get("mail.host"));
+console.log("Mail Server: " + config.get("mail.password"));
 
 //Middleware Function
 //Built in middleware functions
@@ -29,7 +42,7 @@ app.use((req, res, next) => {
 
 //Third-party Middleware functions
 app.use(helmet()); //Helps secure your apps by setting various HTTP headers
-app.use(morgan("tiny")); //HTTP request logger
+// app.use(morgan("tiny")); //HTTP request logger
 
 const genres = [
   { id: 1, name: "Action" },
