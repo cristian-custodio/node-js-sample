@@ -1,8 +1,24 @@
 const Joi = require("joi");
+const logger = require("./logger");
 const express = require("express");
 const app = express();
 
+//Middleware Function
 app.use(express.json());
+
+//Custom imported Middleware function
+app.use(logger);
+
+// //Creating a Custom Middleware Function (Moved to seperate Module)
+// app.use((req, res, next) => {
+//   console.log("Logging..");
+//   next();
+// });
+
+app.use((req, res, next) => {
+  console.log("Authenticating..");
+  next();
+});
 
 const genres = [
   { id: 1, name: "Action" },
@@ -10,6 +26,7 @@ const genres = [
   { id: 3, name: "Romance" },
 ];
 
+//Route Handler Functions (Considered a Middleware Function)
 app.get("/api/genres", (req, res) => {
   res.send(genres);
 });
