@@ -1,10 +1,15 @@
 const Joi = require("joi");
 const logger = require("./logger");
 const express = require("express");
+const { urlencoded } = require("express");
 const app = express();
 
 //Middleware Function
-app.use(express.json());
+//Built in middleware functions
+app.use(express.json()); //req.body
+app.use(express.urlencoded()); //when submitting form information through a URL (req.body)
+//app.use(express.urlencoded({ extended: true })); //allows extended data through forms such as arrays
+app.use(express.static("public")); //serve static assets
 
 //Custom imported Middleware function
 app.use(logger);
