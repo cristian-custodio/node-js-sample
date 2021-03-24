@@ -1,5 +1,3 @@
-function sayHello(name) {
-  console.log("Hello", name);
-}
-
-sayHello("Cristian");
+// import "./logger"; ES6
+//const log = require("./logger");
+//log("message");
