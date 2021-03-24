@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cristian-custodio/node-js-sample#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "joi": "^13.1.0",
     "mongoose": "^5.12.2",
     "underscore": "^1.12.1"
   }
