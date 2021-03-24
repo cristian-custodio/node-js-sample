@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/cristian-custodio/node-js-sample/issues"
   },
-  "homepage": "https://github.com/cristian-custodio/node-js-sample#readme"
+  "homepage": "https://github.com/cristian-custodio/node-js-sample#readme",
+  "dependencies": {
+    "underscore": "^1.12.1"
+  }
 }
