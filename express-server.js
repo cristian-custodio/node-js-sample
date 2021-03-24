@@ -10,9 +10,15 @@ app.get("/api/courses", (req, res) => {
   res.send([1, 2, 3]);
 });
 
-//Parameters
+//Route Parameters
 app.get("/api/courses/:id", (req, res) => {
-  res.send(req.params.id);
+  res.send(req.params);
+});
+
+//Query Parameters
+//http://localhost:5000/api/courses/1?sortby=name
+app.get("/api/courses/:id", (req, res) => {
+  res.send(req.query);
 });
 
 //Environment Variables
