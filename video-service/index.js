@@ -1,3 +1,5 @@
+const helmet = require("helmet");
+const morgan = require("morgan");
 const Joi = require("joi");
 const logger = require("./logger");
 const express = require("express");
@@ -24,6 +26,10 @@ app.use((req, res, next) => {
   console.log("Authenticating..");
   next();
 });
+
+//Third-party Middleware functions
+app.use(helmet()); //Helps secure your apps by setting various HTTP headers
+app.use(morgan("tiny")); //HTTP request logger
 
 const genres = [
   { id: 1, name: "Action" },
