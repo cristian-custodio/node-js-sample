@@ -22,15 +22,9 @@ app.get("/api/courses", (req, res) => {
 app.post("/api/courses", (req, res) => {
   //Example Validation Using JOI
 
-  const schema = {
-    name: Joi.string().min(3).required(),
-  };
+  const { error } = validateCourse(req.body);
 
-  const result = Joi.validate(req.body, schema);
-
-  if (result.error) {
-    res.status(400).send(result.error);
-  }
+  if (error) return res.status(400).send(error.details[0].message);
 
   console.log(result);
 
@@ -60,8 +54,33 @@ app.post("/api/courses", (req, res) => {
 app.get("/api/courses/:id", (req, res) => {
   const course = courses.find((c) => c.id === parseInt(req.params.id));
   if (!course)
-    res.status(404).send("The course with the given id was not found");
+    return res.status(404).send("The course with the given id was not found");
   res.send(course);
+});
+
+app.put("/api/courses/:id", (req, res) => {
+  //lookup course with given ID
+  //if not exist return 404
+
+  const course = courses.find((c) => c.id === parseInt(req.params.id));
+  if (!course)
+    return res.status(404).send("The course with the given id was not found");
+
+  //validate the course
+  //If Invalid, return 400 - bad request
+
+  const { error } = validateCourse(req.body);
+
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  //update course
+
+  course.name = req.body.name;
+  res.send(course);
+
+  //reutrn the updated course
 });
 
 //Query Parameters
@@ -83,3 +102,25 @@ app.listen(port, () => {
 // app.post();
 // app.put();
 // app.delete();
+
+function validateCourse(course) {
+  const schema = {
+    name: Joi.string().min(3).required(),
+  };
+
+  return Joi.validate(course, schema);
+}
+
+app.delete("/api/courses/:id", (req, res) => {
+  const course = courses.find((c) => c.id === parseInt(req.params.id));
+  if (!course)
+    return res.status(404).send("The course with the given id was not found");
+
+  //delete
+  const index = courses.indexOf(course);
+  courses.splice(index);
+
+  //return the same course
+
+  res.send(course);
+});
