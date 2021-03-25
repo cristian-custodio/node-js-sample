@@ -13,7 +13,7 @@ function getRepositories(user) {
 }
 
 function getCommits(repositories) {
-  // getCommits(repositories, displayCommits);
+  //\getCommits(repositories, displayCommits);
   console.log(repositories);
 }
 
