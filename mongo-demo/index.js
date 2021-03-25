@@ -39,15 +39,47 @@ async function createCourse() {
   console.log("Result ", result);
 }
 
-async function getCourses() {
+async function getCoursesUsingQueryComparisonOperators() {
   //Comparison query operators
   // eq (equal)
   // ne (not equal)
+  // gt (greater than)
   // gte (greater than or equal to)
   // lt (less than)
   // n
   // nin (not in)
+  const courses = await Course.find({ price: { $in: [10, 15, 20] } })
+    // .find({ price: { $gte: 10, $lte: 20 } })
+    .limit(10)
+    .sort({ name: 1 })
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
+}
+
+async function getCourses() {
+  //Comparison query operators
+  // eq (equal)
+  // ne (not equal)
+  // gt (greater than or equal to)
+  // lt (less than)
+  // n
+  // nin (not in)
   const courses = await Course.find({ author: "Cristian", isPublished: true })
+    .limit(10)
+    .sort({ name: 1 })
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
+}
+
+async function getCoursesUsingQueryOperators() {
+    // or
+    // and
+    
+  const courses = await Course
+    .find()
+    .or([{author: "Cristian"}, {isPublished: true}])
+    .and([{author: "Cristian"}, {isPublished: true}])
+    // .find({ author: "Cristian", isPublished: true })
     .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
