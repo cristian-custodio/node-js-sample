@@ -71,15 +71,68 @@ async function getCourses() {
   console.log(courses);
 }
 
+//Pagination
+async function getCoursesPagination() {
+  //Comparison query operators
+  // eq (equal)
+  // ne (not equal)
+  // gt (greater than or equal to)
+  // lt (less than)
+  // n
+  // nin (not in)
+  const courses = await Course.find({ author: "Cristian", isPublished: true })
+    .limit(10)
+    .sort({ name: 1 })
+    .count();
+  console.log(courses);
+}
+
+//Return Count
+async function getCoursesCount() {
+  //Comparison query operators
+  // eq (equal)
+  // ne (not equal)
+  // gt (greater than or equal to)
+  // lt (less than)
+  // n
+  // nin (not in)
+  const courses = await Course.find({ author: "Cristian", isPublished: true })
+    .limit(10)
+    .sort({ name: 1 })
+    .count();
+  console.log(courses);
+}
+
 async function getCoursesUsingQueryOperators() {
-    // or
-    // and
-    
-  const courses = await Course
-    .find()
-    .or([{author: "Cristian"}, {isPublished: true}])
-    .and([{author: "Cristian"}, {isPublished: true}])
+  // or
+  // and
+
+  const courses = await Course.find()
+    .or([{ author: "Cristian" }, { isPublished: true }])
+    .and([{ author: "Cristian" }, { isPublished: true }])
     // .find({ author: "Cristian", isPublished: true })
+    .limit(10)
+    .sort({ name: 1 })
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
+}
+
+async function getCoursesUsingRegularExpressions() {
+  // or
+  // and
+
+  const courses = await Course.find()
+    // .find({ author: "Cristian", isPublished: true })
+
+    // Starts with Cristian
+    .find({ author: /^Cris/ })
+
+    // Ends with Custodio
+    .find({ author: /Custodio$/i })
+
+    //Contains Cristian
+    .find({ author: /.*Cristian.*/i })
+
     .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
