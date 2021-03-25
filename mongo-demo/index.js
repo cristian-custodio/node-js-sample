@@ -163,6 +163,19 @@ async function updateDocumentDirectlyOnDatabase(id) {
       },
     }
   );
+}
+
+async function updateDocumentDirectlyOnDatabaseAndReturnUpdatedOne(id) {
+  const result = await Course.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        author: "Cristian",
+        isPusblished: false,
+      },
+    },
+    { new: true }
+  );
 
   console.log(result);
 
@@ -171,6 +184,13 @@ async function updateDocumentDirectlyOnDatabase(id) {
   //       isPublished: true,
   //       author: "another atuhro"
   //   })
+}
+
+//Delete Dcouments
+async function removeCourse(id) {
+  //   const result = await Course.deleteOne({ _id: id });
+  const course = await Course.findByIdAndRemove(id);
+  console.log(course);
 }
 
 getCourses();
