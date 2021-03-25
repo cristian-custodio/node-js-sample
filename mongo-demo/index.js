@@ -73,15 +73,13 @@ async function getCourses() {
 
 //Pagination
 async function getCoursesPagination() {
-  //Comparison query operators
-  // eq (equal)
-  // ne (not equal)
-  // gt (greater than or equal to)
-  // lt (less than)
-  // n
-  // nin (not in)
-  const courses = await Course.find({ author: "Cristian", isPublished: true })
-    .limit(10)
+  const pageNumber = 2;
+  const pageSize = 10;
+
+  const courses = await Course
+    .find({ author: "Cristian", isPublished: true })
+    .skip((pageNumber - 1)(pageSize))
+    .limit(pageSize)
     .sort({ name: 1 })
     .count();
   console.log(courses);
