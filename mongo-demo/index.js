@@ -76,8 +76,7 @@ async function getCoursesPagination() {
   const pageNumber = 2;
   const pageSize = 10;
 
-  const courses = await Course
-    .find({ author: "Cristian", isPublished: true })
+  const courses = await Course.find({ author: "Cristian", isPublished: true })
     .skip((pageNumber - 1)(pageSize))
     .limit(pageSize)
     .sort({ name: 1 })
@@ -135,6 +134,23 @@ async function getCoursesUsingRegularExpressions() {
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
   console.log(courses);
+}
+
+async function updateApproachQueryFirst(id) {
+  const course = await Course.findById(id);
+  if (!course) return;
+
+  course.isPublished = true;
+  course.author = "Another Author";
+
+  const result = await course.save();
+  console.log(result);
+
+  //   Another Approach
+  //   course.set({
+  //       isPublished: true,
+  //       author: "another atuhro"
+  //   })
 }
 
 getCourses();
