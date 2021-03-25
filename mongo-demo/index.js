@@ -153,5 +153,25 @@ async function updateApproachQueryFirst(id) {
   //   })
 }
 
+async function updateDocumentDirectlyOnDatabase(id) {
+  const result = await Course.updateOne(
+    { _id: id },
+    {
+      $set: {
+        author: "Cristian",
+        isPusblished: false,
+      },
+    }
+  );
+
+  console.log(result);
+
+  //   Another Approach
+  //   course.set({
+  //       isPublished: true,
+  //       author: "another atuhro"
+  //   })
+}
+
 getCourses();
 // createCourse();
