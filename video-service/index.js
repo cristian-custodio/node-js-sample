@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const startupDebugger = require("debug")("app:startup");
 const dbDebugger = require("debug")("app:db");
 const config = require("config");
@@ -8,6 +9,15 @@ const genres = require("./routes/genres");
 const express = require("express");
 const { urlencoded } = require("express");
 const app = express();
+
+mongoose
+  .connect("mongodb://localhost/video-service")
+  .then(() => {
+    console.log("Connected to MongoDb...");
+  })
+  .catch((err) => {
+    console.error("Could not connect to MongoDB...", err);
+  });
 
 //Set environment on node using the following
 //export NODE_ENV=production (On Terminal)
