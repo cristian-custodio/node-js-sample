@@ -22,27 +22,7 @@ const courseSchema = new mongoose.Schema({
     enum: ["web", "mobile", "network"],
   },
   author: String,
-
-  //-----------------
-  //Custom Async Validator!
-  //-----------------
-
-  tags: {
-    type: Array,
-    validate: {
-      isAsync: true,
-      validator: function (v, callback) {
-        setTimeout(() => {
-          //Do some work
-          const result = v && v.length > 0;
-          callback(result);
-        }, 4000);
-
-        //return if v has a value and v lenght greater than 0
-      },
-      message: "A course should have at least one tag",
-    },
-  },
+  tags: [String],
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
   //Conditional on whether the price will be required if the course is published
@@ -62,20 +42,17 @@ const Course = mongoose.model("Course", courseSchema);
 //Creating and Saving Documents using Mongoose
 async function createCourse() {
   const course = new Course({
-    name: "Angular Course",
-    category: "-",
+    category: "_",
     author: "Cristian",
-    tags: null,
+    tags: ["node", "backend"],
     isPublished: true,
-    price: 15,
   });
 
   try {
     const result = await course.save();
     console.log("Result ", result);
   } catch (error) {
-    //Itirate through multiple errors
-    for (let field in error.errors) console.log(error.errors[field].message);
+    console.log(error.message);
   }
 }
 
