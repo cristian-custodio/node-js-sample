@@ -16,13 +16,40 @@ const courseSchema = new mongoose.Schema({
     maxlength: 255,
     // match:/pattern/
   },
+
+  //Schema Type Options Here
   category: {
     type: String,
     required: true,
     enum: ["web", "mobile", "network"],
+
+    //Schema Type Additional Options Here
+    lowercase: true,
+    // uppercase: true,
+    trim: true, //Remov string paddings
   },
   author: String,
-  tags: [String],
+
+  //-----------------
+  //Custom Async Validator!
+  //-----------------
+
+  tags: {
+    type: Array,
+    validate: {
+      isAsync: true,
+      validator: function (v, callback) {
+        setTimeout(() => {
+          //Do some work
+          const result = v && v.length > 0;
+          callback(result);
+        }, 4000);
+
+        //return if v has a value and v lenght greater than 0
+      },
+      message: "A course should have at least one tag",
+    },
+  },
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
   //Conditional on whether the price will be required if the course is published
@@ -33,6 +60,10 @@ const courseSchema = new mongoose.Schema({
     },
     min: 10,
     max: 200,
+
+    //Schema Type Options (These are irrelavant to type)
+    get: (v) => Math.round(v),
+    set: (v) => Math.round(v),
   },
 });
 
@@ -42,17 +73,20 @@ const Course = mongoose.model("Course", courseSchema);
 //Creating and Saving Documents using Mongoose
 async function createCourse() {
   const course = new Course({
-    category: "_",
+    name: "Angular Course",
+    category: "Web",
     author: "Cristian",
-    tags: ["node", "backend"],
+    tags: ["frontend"],
     isPublished: true,
+    price: 15.8,
   });
 
   try {
     const result = await course.save();
     console.log("Result ", result);
   } catch (error) {
-    console.log(error.message);
+    //Itirate through multiple errors
+    for (let field in error.errors) console.log(error.errors[field].message);
   }
 }
 
