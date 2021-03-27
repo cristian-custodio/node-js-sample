@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const logger = require("./middleware/logger");
 const genres = require("./routes/genres");
+const customers = require("./routes/customers");
 const express = require("express");
 const { urlencoded } = require("express");
 const app = express();
@@ -44,6 +45,7 @@ app.use(express.static("public")); //serve static assets
 //Custom imported Middleware function
 app.use(logger);
 app.use("/api/genres", genres);
+app.use("/api/customers", customers);
 
 // //Creating a Custom Middleware Function (Moved to seperate Module)
 // app.use((req, res, next) => {
