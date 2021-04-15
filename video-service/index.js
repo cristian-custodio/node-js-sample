@@ -1,3 +1,5 @@
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const startupDebugger = require("debug")("app:startup");
 const dbDebugger = require("debug")("app:db");
@@ -32,8 +34,8 @@ if (app.get("env") === "development") {
 dbDebugger("Connected to the database");
 
 console.log("Application Name: " + config.get("name"));
-console.log("Mail Server: " + config.get("mail.host"));
-console.log("Mail Server: " + config.get("mail.password"));
+// console.log("Mail Server: " + config.get("mail.host"));
+// console.log("Mail Server: " + config.get("mail.password"));
 
 //Middleware Function
 //Built in middleware functions
